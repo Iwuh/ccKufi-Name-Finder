@@ -2,6 +2,7 @@ import math
 import re
 import colorama
 
+
 with open("roommembers.txt", "r") as f:
     # turn roommembers.txt into list of names
     member_list = f.read().split(", ")
@@ -10,11 +11,12 @@ with open("roommembers.txt", "r") as f:
 def main():
     # prompt for username
     username = input("Enter your username: ")
-    if username in member_list:
+    # TODO Find out why it says my name isn't in the list
+    try:
         name_chunk = find_name_chunk(username, member_list.index(username))
         character_list = search_name_chunk(name_chunk, member_list.index(username))
         print_results(character_list)
-    else:
+    except ValueError:
         print("Error: username was not in room")
         input("Press Enter to exit...")
 
