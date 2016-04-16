@@ -43,7 +43,7 @@ def search_name_chunk(search_term, username_index):
     with open("roomname.txt", "r") as r:
         # approximate beginning of name chunk in room name
         # multiplied by 2 because most if not everyone got 2 letters in ccKufi's name and I don't know a better solution
-        center_search = int(r.read()[username_index * 2])
+        center_search = username_index * 2
         # give an extra 2000 characters on each side to be safe (full name is >10000 characters long)
         if center_search-2000 < 0:
             # however, we don't want the start to be lower than 0
@@ -63,11 +63,12 @@ def search_name_chunk(search_term, username_index):
 
 def print_results(results):
     with open("roomname.txt", "r") as n:
-        for i in n.read():
+        room_name = n.read()
+        for i in range(0, len(room_name)):
             if i in results:
-                print(colorama.Fore.RED + i)
+                print(colorama.Fore.RED + room_name[i], end="")
             else:
-                print(colorama.Fore.WHITE + i)
+                print(colorama.Fore.WHITE + room_name[i], end="")
 
 if __name__ == "__main__":
     # must initialise colorama before use and deinitialise after use (only on Windows)
