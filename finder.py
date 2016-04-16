@@ -13,6 +13,7 @@ def main():
     if username in member_list:
         name_chunk = find_name_chunk(username, member_list.index(username))
         character_list = search_name_chunk(name_chunk, member_list.index(username))
+        print_results(character_list)
     else:
         print("Error: username was not in room")
         input("Press Enter to exit...")
@@ -40,7 +41,7 @@ def search_name_chunk(search_term, username_index):
     with open("roomname.txt", "r") as r:
         # approximate beginning of name chunk in room name
         # multiplied by 2 because most if not everyone got 2 letters in ccKufi's name and I don't know a better solution
-        center_search = r.read()[username_index * 2]
+        center_search = int(r.read()[username_index * 2])
         # give an extra 2000 characters on each side to be safe (full name is >10000 characters long)
         if center_search-2000 < 0:
             # however, we don't want the start to be lower than 0
@@ -57,7 +58,17 @@ def search_name_chunk(search_term, username_index):
 
         return adjusted_list
 
+
+def print_results(results):
+    with open("roomname.txt", "r") as n:
+        for i in n.read():
+            if i in results:
+                print(colorama.Fore.RED + i)
+            else:
+                print(colorama.Fore.WHITE + i)
+
 if __name__ == "__main__":
+    # must initialise colorama before use and deinitialise after use (only on Windows)
     colorama.init()
     main()
     colorama.deinit()
