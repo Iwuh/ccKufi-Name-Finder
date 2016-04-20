@@ -11,11 +11,9 @@ with open("roommembers.txt", "r") as f:
 def main():
     # prompt for username
     username = input("Enter your username: ")
-    # TODO Find out why it says my name isn't in the list
     try:
         name_chunk = find_name_chunk(username, member_list.index(username))
-        character_list = search_name_chunk(name_chunk, member_list.index(username))
-        print_results(character_list)
+        search_name_chunk(name_chunk, member_list.index(username))
     except ValueError:
         print("Error: username was not in room")
         input("Press Enter to exit...")
@@ -47,9 +45,10 @@ def search_name_chunk(search_term, username_index):
         # give an extra 2000 characters on each side to be safe (full name is >10000 characters long)
         if center_search-2000 < 0:
             # however, we don't want the start to be lower than 0
-            search_section = r.read()[0:center_search + 2000]
+            search_start = 0
         else:
-            search_section = r.read()[center_search - 2000:center_search + 2000]
+            search_start = center_search-2000
+        search_section = r.read()[search_start:center_search+2000]
         # use list comprehension to get a list of tuples where matches were found
         result_list = [m.span() for m in s.finditer(search_section)]
         adjusted_list = []
@@ -58,17 +57,21 @@ def search_name_chunk(search_term, username_index):
             adjusted_list.append(i[0])
             adjusted_list.append(i[1]-1)
 
-        return adjusted_list
+        print_results(adjusted_list, search_start)
 
 
-def print_results(results):
+def print_results(results, search_begin):
     with open("roomname.txt", "r") as n:
         room_name = n.read()
         for i in range(0, len(room_name)):
-            if i in results:
-                print(colorama.Fore.RED + room_name[i], end="")
-            else:
+            if i < search_begin:
                 print(colorama.Fore.WHITE + room_name[i], end="")
+            elif i == search_begin:
+                for j in range(0, len(results)):
+                    if j in results:
+                        print(colorama.Fore.RED + room_name[j+i], end="")
+                    else:
+                        print(colorama.Fore.WHITE + room_name[j+i], end="")
 
 if __name__ == "__main__":
     # must initialise colorama before use and deinitialise after use (only on Windows)
