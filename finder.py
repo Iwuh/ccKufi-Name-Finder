@@ -31,7 +31,12 @@ def find_name_chunk(fullname, username_index):
     # from what this method says. In the future there will be a long search option that uses every possible slice of
     # your username.
     chunk_begin = int(username_index / 5295 * len(fullname))
-    chunk = fullname[chunk_begin:chunk_begin+chunk_size]
+    # make sure the chunk doesn't get shortened because it goes over the end of the string
+    if chunk_begin+chunk_size > len(fullname):
+        # spooky string slicing magic
+        chunk = fullname[len(fullname)-chunk_size:]
+    else:
+        chunk = fullname[chunk_begin:chunk_begin+chunk_size]
 
     return chunk
 
@@ -54,24 +59,20 @@ def search_name_chunk(search_term, username_index):
         adjusted_list = []
         # convert list of tuples to list of character indices where matches were found
         for i in result_list:
-            adjusted_list.append(i[0])
-            adjusted_list.append(i[1]-1)
+            adjusted_list.append((i[0])+search_start)
+            adjusted_list.append((i[1]-1)+search_start)
 
-        print_results(adjusted_list, search_start)
+        print_results(adjusted_list)
 
 
-def print_results(results, search_begin):
+def print_results(results):
     with open("roomname.txt", "r") as n:
         room_name = n.read()
         for i in range(0, len(room_name)):
-            if i < search_begin:
+            if i in results:
+                print(colorama.Fore.RED + room_name[i], end="")
+            else:
                 print(colorama.Fore.WHITE + room_name[i], end="")
-            elif i == search_begin:
-                for j in range(0, len(results)):
-                    if j in results:
-                        print(colorama.Fore.RED + room_name[j+i], end="")
-                    else:
-                        print(colorama.Fore.WHITE + room_name[j+i], end="")
 
 if __name__ == "__main__":
     # must initialise colorama before use and deinitialise after use (only on Windows)
