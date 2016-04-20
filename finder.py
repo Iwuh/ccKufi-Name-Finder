@@ -47,13 +47,13 @@ def search_name_chunk(search_term, username_index):
         # approximate beginning of name chunk in room name
         # multiplied by 2 because most if not everyone got 2 letters in ccKufi's name and I don't know a better solution
         center_search = username_index * 2
-        # give an extra 2000 characters on each side to be safe (full name is >10000 characters long)
-        if center_search-2000 < 0:
+        # give an extra 500 characters on each side to be safe (full name is >10000 characters long)
+        if center_search-500 < 0:
             # however, we don't want the start to be lower than 0
             search_start = 0
         else:
-            search_start = center_search-2000
-        search_section = r.read()[search_start:center_search+2000]
+            search_start = center_search-500
+        search_section = r.read()[search_start:center_search+500]
         # use list comprehension to get a list of tuples where matches were found
         result_list = [m.span() for m in s.finditer(search_section)]
         adjusted_list = []
@@ -68,6 +68,7 @@ def search_name_chunk(search_term, username_index):
 def print_results(results):
     with open("roomname.txt", "r") as n:
         room_name = n.read()
+        # iterate over every character in the room name and print in red if it matches an item in results
         for i in range(0, len(room_name)):
             if i in results:
                 print(colorama.Fore.RED + room_name[i], end="")
