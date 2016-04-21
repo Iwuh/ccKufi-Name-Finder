@@ -6,7 +6,7 @@ block_cipher = None
 a = Analysis(['finder.py'],
              pathex=['.'],
              binaries=None,
-             datas=[('roomname.txt', '.'),('roommembers.txt', '.')],
+             datas=[('roomname.txt', '.'), ('roommembers.txt', '.')],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
@@ -30,4 +30,4 @@ coll = COLLECT(exe,
                a.datas,
                strip=False,
                upx=True,
-               name='ccKufi-Name-Finder-Windows')
+               name='ccKufi-Name-Finder-Linux(x64)')

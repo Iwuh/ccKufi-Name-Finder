@@ -1,0 +1,1 @@
+pyinstaller -y linux-x64.spec
