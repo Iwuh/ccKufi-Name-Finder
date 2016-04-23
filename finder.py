@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import math
 import re
 import colorama
@@ -14,6 +16,8 @@ def main():
     try:
         name_chunk = find_name_chunk(username, member_list.index(username))
         search_name_chunk(name_chunk, member_list.index(username))
+        print("")
+        input("Press Enter to exit...")
     except ValueError:
         print("Error: username was not in room")
         input("Press Enter to exit...")
@@ -47,13 +51,13 @@ def search_name_chunk(search_term, username_index):
         # approximate beginning of name chunk in room name
         # multiplied by 2 because most if not everyone got 2 letters in ccKufi's name and I don't know a better solution
         center_search = username_index * 2
-        # give an extra 500 characters on each side to be safe (full name is >10000 characters long)
-        if center_search-500 < 0:
+        # give an extra 100 characters on each side to be safe (full name is >10000 characters long)
+        if center_search-100 < 0:
             # however, we don't want the start to be lower than 0
             search_start = 0
         else:
-            search_start = center_search-500
-        search_section = r.read()[search_start:center_search+500]
+            search_start = center_search-100
+        search_section = r.read()[search_start:center_search+100]
         # use list comprehension to get a list of tuples where matches were found
         result_list = [m.span() for m in s.finditer(search_section)]
         adjusted_list = []
