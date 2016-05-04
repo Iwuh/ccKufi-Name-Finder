@@ -68,7 +68,7 @@ I don't know how installing packages on Mac works. Unless somebody updates this 
 
 Install:
 
-Python 3.5.1
-Pip
+* Python 3.5.1
+* Pip
 
 Install Wheel, Colorama, and PyInstaller with pip. It will likely be `pip3 install requirements.txt`.
