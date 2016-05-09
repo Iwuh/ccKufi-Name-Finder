@@ -62,6 +62,8 @@ Install the following packages:
 
 Install Wheel, Colorama, and PyInstaller by running `pip3 install requirements.txt`.
 
+If you're using 64 bit Linux you can build by running `linuxbuildx64.sh`. On 32 bit Linux you'll have to create an initial spec file by running `pyinstaller finder.py`. This will build a spec file called finder.spec. Open it with your preferred text editor. Change the line `datas=None` to `datas=[('roomname.txt', '.'), ('roommembers.txt', '.')]`. Change the name line under exe if you'd like to change the name of the executable, and the name line under coll if you want to change the name of the build location. From now on build the executable by running `pyinstaller -y name_of_spec_file.spec`.
+
 ### Mac
 
 I don't know how installing packages on Mac works. Unless somebody updates this with a guide, you're probably better off running from source. If you really want to build the executable, here are the basic steps.
@@ -72,3 +74,5 @@ Install:
 * Pip
 
 Install Wheel, Colorama, and PyInstaller with pip. It will likely be `pip3 install requirements.txt`.
+
+You'll have to create an initial spec file by running `pyinstaller finder.py`. This will build a spec file called finder.spec. Open it with your preferred text editor. Change the line `datas=None` to `datas=[('roomname.txt', '.'), ('roommembers.txt', '.')]`. Change the name line under exe if you'd like to change the name of the executable, and the name line under coll if you want to change the name of the build location. From now on build the executable by running `pyinstaller -y name_of_spec_file.spec`.
